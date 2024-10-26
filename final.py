@@ -427,7 +427,7 @@ def convertToText():
     combined_text = ""
     previous = -1
 
-    for page_no in range(1):
+    for page_no in range(total_pages):
         page = document[page_no]
         page_text = page.get_texttrace()
         dublicacy = []
