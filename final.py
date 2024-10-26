@@ -8,6 +8,8 @@ from PIL import Image, ImageTk,ImageFont
 import tkinter.font as tkfont
 from tkinter import font
 
+
+# pymupdf, freetype-py, tk, pillow
 # Get the default font
 
 # Load a custom font from a file
@@ -362,8 +364,8 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
 
         # Create text input field with padding
         # text_entry = tk.Text(scrollable_frame, wrap="word",padx=20,pady=10, font=custom_font_tk, height=1, width=4)
-        text_entry = tk.Entry(scrollable_frame,font=custom_font_tk,width=5, highlightthickness=1,fg="white",bg="white", highlightbackground="black")
-        text_entry.grid(row=row, column=col+1, padx=0, pady=5, ipadx=0, ipady=0,)  # Adding internal padding
+        text_entry = tk.Entry(scrollable_frame,font=custom_font_tk,width=5, highlightthickness=1, highlightbackground="black")
+        text_entry.grid(row=row, column=col+2, padx=0, pady=5, ipadx=0, ipady=0,)  # Adding internal padding
         
 
         img_label = tk.Label(scrollable_frame, image=img)
@@ -393,7 +395,7 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
         img_label_char.grid(row=row, column=col+1, padx=5, pady=5)
         # canvas.tag_raise("preview")
 
-        # text_entry.insert(0,char)
+        text_entry.insert(0,char)
         text_entry.id = {"index":index,"gid":gid}
         text_entry.bind("<KeyRelease>",on_text_change)
   
