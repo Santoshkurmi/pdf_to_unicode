@@ -7,7 +7,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk,ImageFont
 import tkinter.font as tkfont
 from tkinter import font
-
+import json
 
 # pymupdf, freetype-py, tk, pillow
 # Get the default font
@@ -19,7 +19,7 @@ custom_font = ImageFont.truetype(custom_font_path, 60)
 
 
 all_rules = {
-    "post-rules": [ ["(.)र्",r"र्\1"] , ["्ा", ""], ["(त्र|त्त)([^उभप]+?)m", r"\1m\2"], ["त्रm", "क्र"], ["त्तm", "क्त"], ["([^उभप]+?)m", r"m\1"], ["उm", "ऊ"], ["भm", "झ"], ["पm", "फ"], ["इ{", "ई"], ["ि((.्)*[^्])", r"\1ि"], ["(.[ािीुूृेैोौंःँ]*?){", r"{\1"], ["((.्)*){", r"{\1"], ["{", "र्"], ["([ाीुूृेैोौंःँ]+?)(्(.्)*[^्])", r"\2\1"], ["्([ाीुूृेैोौंःँ]+?)((.्)*[^्])", r"्\2\1"], ["([ंँ])([ािीुूृेैोौः]*)", r"\2\1"], ["ँँ", "ँ"], ["ंं", "ं"], ["ेे", "े"], ["ैै", "ै"], ["ुु", "ु"], ["ूू", "ू"], ["^ः", ":"], ["टृ", "ट्ट"], ["ेा", "ाे"], ["ैा", "ाै"], ["अाे", "ओ"], ["अाै", "औ"], ["अा", "आ"], ["एे", "ऐ"], ["ाे", "ो"], ["ाै", "ौ"]],
+    "post-rules": [ ["(.[ािीुूृेैोौंःँ]*?)र्", r"र्\1"], ["्ा", ""], ["(त्र|त्त)([^उभप]+?)m", r"\1m\2"], ["त्रm", "क्र"], ["त्तm", "क्त"], ["([^उभप]+?)m", r"m\1"], ["उm", "ऊ"], ["भm", "झ"], ["पm", "फ"], ["इ{", "ई"],["इइ", "ई"], ["ि((.्)*[^्])", r"\1ि"], ["(.[ािीुूृेैोौंःँ]*?){", r"{\1"], ["((.्)*){", r"{\1"], ["{", "र्"], ["([ाीुूृेैोौंःँ]+?)(्(.्)*[^्])", r"\2\1"], ["्([ाीुूृेैोौंःँ]+?)((.्)*[^्])", r"्\2\1"], ["([ंँ])([ािीुूृेैोौः]*)", r"\2\1"], ["ँँ", "ँ"], ["ंं", "ं"], ["ेे", "े"], ["ैै", "ै"], ["ुु", "ु"], ["ूू", "ू"], ["^ः", ":"], ["टृ", "ट्ट"], ["ेा", "ाे"], ["ैा", "ाै"], ["अाे", "ओ"], ["अाै", "औ"], ["अा", "आ"], ["एे", "ऐ"], ["ाे", "ो"], ["ाै", "ौ"]],
     "char-map": {
       "÷": "/", "v": "ख", "r": "च", "\"": "ू", "~": "ञ्", "z": "श", "ç": "ॐ", "f": "ा", "b": "द", "n": "ल", "j": "व", "×": "×", "V": "ख्", "R": "च्", "ß": "द्म", "^": "६", "Û": "!", "Z": "श्", "F": "ँ", "B": "द्य", "N": "ल्", "Ë": "ङ्ग", "J": "व्", "6": "ट", "2": "द्द", "¿": "रू", ">": "श्र", ":": "स्", "§": "ट्ट", "&": "७", "£": "घ्", "•": "ड्ड", ".": "।", "«": "्र", "*": "८", "„": "ध्र", "w": "ध", "s": "क", "g": "न", "æ": "“", "c": "अ", "o": "य", "k": "प", "W": "ध्", "Ö": "=", "S": "क्", "Ò": "¨", "_": ")", "[": "ृ", "Ú": "’", "G": "न्", "ˆ": "फ्", "C": "ऋ", "O": "इ", "Î": "ङ्ख", "K": "प्", "7": "ठ", "¶": "ठ्ठ", "3": "घ", "9": "ढ", "?": "रु", ";": "स", "'": "ु", "#": "३", "¢": "द्घ", "/": "र", "+": "ं", "ª": "ङ", "t": "त", "p": "उ", "|": "्र", "x": "ह", "å": "द्व", "d": "म", "`": "ञ", "l": "ि", "h": "ज", "T": "त्", "P": "ए", "Ý": "ट्ठ", "\\": "्", "Ù": ";", "X": "ह्", "Å": "हृ", "D": "म्", "@": "२", "Í": "ङ्क", "L": "ी", "H": "ज्", "4": "द्ध", "±": "+", "0": "ण्", "<": "?", "8": "ड", "¥": "र्‍", "$": "४", "¡": "ज्ञ्", ",": ",", "©": "र", "(": "९", "‘": "ॅ", "u": "ग", "q": "त्र", "}": "ै", "y": "थ", "e": "भ", "a": "ब", "i": "ष्", "‰": "झ्", "U": "ग्", "Q": "त्त", "]": "े", "˜": "ऽ", "Y": "थ्", "Ø": "्य", "E": "भ्", "A": "ब्", "M": "ः", "Ì": "न्न", "I": "क्ष्", "5": "छ", "´": "झ", "1": "ज्ञ", "°": "ङ्ढ", "=": ".", "Æ": "”", "‹": "ङ्घ", "%": "५", "¤": "झ्", "!": "१", "-": "(", "›": "द्र", ")": "०", "…": "‘", "Ü": "%"
     }
@@ -132,12 +132,17 @@ def getAllFonts():
 
     fontSet = set()
     all_common = get_all_commo_fonts()
+    # print(all_common)
+    # print(all_common)
     fonts_added = []
     for i in range(document.page_count):
-        fonts = document.get_page_fonts(0, full=True)
+        fonts = document.get_page_fonts(i, full=True)
+        print(fonts)
         for font in fonts:
 
+
             name =  font[3].split("+")
+            # print(name)
             if len(name)>1  and font[3] not in all_common:
                 name = name[1]
                 font = (font[0],font[1],font[2],name,font[4],font[5])
@@ -161,6 +166,7 @@ def getFace(font_index):
     font_dict = document.extract_font(font_index)
     font_file_name = font_dict[0]+"-"+str(font_index)+"."+font_dict[1]
     
+    
     with open(font_file_name,"wb") as f:
         f.write(font_dict[3])
 
@@ -179,20 +185,24 @@ def create_glyph_image_by_gid(gid,char, face, font_size):
     # return photo
     face.set_pixel_sizes(0, font_size)
     # print(gid)
-    face.load_glyph(gid, freetype.FT_LOAD_RENDER)
-
-    bitmap = face.glyph.bitmap
-    if bitmap.buffer:
-        image = Image.frombytes('L', (bitmap.width, bitmap.rows),bytes( bitmap.buffer), 'raw', 'L', bitmap.pitch)
+    try:
+        face.load_glyph(gid, freetype.FT_LOAD_RENDER)
+        bitmap = face.glyph.bitmap
+        if bitmap.buffer:
+            image = Image.frombytes('L', (bitmap.width, bitmap.rows),bytes( bitmap.buffer), 'raw', 'L', bitmap.pitch)
         
-        return ImageTk.PhotoImage(image)
-    else:
+            return ImageTk.PhotoImage(image)
+    except Exception as e:
+        print(e)
+
+   
+    
         # print("nothing")
         # Return a placeholder image if no bitmap is available
-        image = Image.new("L", (font_size, font_size), "white")
-        draw = ImageDraw.Draw(image)
-        draw.text((10, 10), "N/A", fill="black")
-        return ImageTk.PhotoImage(image)
+    image = Image.new("L", (font_size, font_size), "white")
+    draw = ImageDraw.Draw(image)
+    draw.text((10, 10), "N/A", fill="black")
+    return ImageTk.PhotoImage(image)
 
 def get_all_commo_fonts():
     all_fonts = []
@@ -211,14 +221,24 @@ def get_all_commo_fonts():
 
 
 import os  
+char_location_font_to_gid = {}
 def get_all_gid_used():
+    global char_location_font_to_gid
     file_name = sys.argv[1]+".json"
     if os.path.exists(file_name):
         with open(file_name,"r") as f:
-            data = json.loads(f.read() )
+            gid_to_char = json.loads(f.read() )
             # print(data)
-            return data
+            # return data
+        if os.path.exists(sys.argv[1]+".origin.json"):
+            with open(sys.argv[1]+".origin.json","r") as f:
+                char_location_font_to_gid = json.loads(f.read() )
+                return gid_to_char
+                
+        # return gid_to_char 
+    print("hehhh")
     gid_to_char = {}
+    prev_gid =0
     for i in range(document.page_count):
         page = document[i]
         page_content = page.get_texttrace()
@@ -226,22 +246,46 @@ def get_all_gid_used():
         for span in page_content:
             font = span["font"]
             chars = span["chars"]
+
+            # bbox = span[]
             # print(font)
             # exit()
+            if not font in gid_to_char:
+                    gid_to_char[font] = {"is_preeti":False}
+                    # print(font)
         
             for char in chars:
+                bbox = char[3]
+                origin = char[2]
+                gid =str( char[1])
+                if not gid =="-1":
+                    char_location_font_to_gid[f'{origin[0]},{origin[1]},{font}'] = gid
+
+                # if gid_to_char[font][str(gid)]
+                # if gid in gid_to_char[font]:
+                #     continue
+                # chars_box = page.get_textbox(bbox)
+                # print(chars_box)
+                # print(chr(char[0]))
+                # print(bbox)
+                # exit()
+                # unicode_char = chars_box
                 unicode_char = chr( char[0] )
-                gid = char[1]
-                if gid==-1:continue
+                if gid== "-1":
+                    gid_to_char[font][prev_gid] = gid_to_char[font][prev_gid] + unicode_char
+                    continue
+                else:
+                    prev_gid = gid
+                    gid_to_char[font][gid] = unicode_char
 
-                if not font in gid_to_char:
-                    gid_to_char[font] = {"is_preeti":False}
-                gid_to_char[font][str(gid)] = unicode_char
-
-    # print(gid_to_char)
+    # print(gid_to_char["Kalimati"])
     # exit()
+    with open(sys.argv[1]+".origin.json","w",encoding="utf-8") as f:
+        # print(char_location_font_to_gid)
+        f.write(json.dumps(char_location_font_to_gid,indent=4))
     return gid_to_char
 
+# get_all_gid_used()
 
 def get_all_glyph_images(all_gid_maps,font_name,font_index):
     images = []
@@ -267,9 +311,9 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
     global all_gids
 
 
-    font_dict = document.extract_font(font_index)
-    font_file_name = font_dict[0]+"-"+str(font_index)+"."+font_dict[1]
-    custom_font_current = ImageFont.truetype(font_file_name, 60)
+    # font_dict = document.extract_font(font_index)
+    # font_file_name = font_dict[0]+"-"+str(font_index)+"."+font_dict[1]
+    # custom_font_current = ImageFont.truetype(font_file_name, 60)
 
     
     # Clear previous content in the frame if any
@@ -278,7 +322,7 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
 
     default_font = tkfont.nametofont("TkDefaultFont")
 
-# Set a new size for the default font
+    # Set a new size for the default font
     default_font.configure(size=40)
 
     # Create a canvas to enable scrolling
@@ -319,7 +363,7 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
 
         
 
- # Create StringVar to track text changes in Entry widget
+        # Create StringVar to track text changes in Entry widget
         entry_var = tk.StringVar(value=char)
 
         # Define the callback for text changes
@@ -344,7 +388,7 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
             imageChar = Image.new("RGB", (100,100), (255, 255, 255))
             draw = ImageDraw.Draw(imageChar)
         # print(char)
-            draw.text((10, 10), converted, font=custom_font_current, fill=(0, 0, 0))
+            draw.text((10, 10), converted, font=custom_font, fill=(0, 0, 0))
 
             photo = ImageTk.PhotoImage(imageChar)
             # photo.id = id
@@ -360,7 +404,7 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
         
         label = tk.Label(scrollable_frame, text=f"      ")
         label.grid(row=row, column=col+2, padx=30, pady=5)  # Position for the label
-#  textvariable=entry_var,
+        #  textvariable=entry_var,
 
         # Create text input field with padding
         # text_entry = tk.Text(scrollable_frame, wrap="word",padx=20,pady=10, font=custom_font_tk, height=1, width=4)
@@ -378,7 +422,7 @@ def create_scrollable_list(items,list_frame,font_name,font_index):
         imageChar = Image.new("RGB", (100,100), (255, 255, 255))
         draw = ImageDraw.Draw(imageChar)
         # print(char)
-        draw.text((10, 10), char, font=custom_font_current, fill=(0, 0, 0))
+        draw.text((10, 10), char, font=custom_font, fill=(0, 0, 0))
 
         photo = ImageTk.PhotoImage(imageChar)
         photo.id = index
@@ -421,16 +465,73 @@ def apply_replacement_rules(text, rules):
 
 
 
+
 def convertToText():
+
+    # print(char_location_font_to_gid)
+    # print(all_gids)
     total_pages = document.page_count
     prevX = 0
     combined_text = ""
     previous = -1
 
+    # matched=0
+    # missed = 0
+    # skip = 0
+    # output = ""
+    # for page_no in range(total_pages):
+    #     page = document[page_no]
+    #     page_blocks = page.get_text("rawdict")["blocks"]
+        
+        
+    #     for block in page_blocks:
+    #         if "lines" in block:
+    #             lines = block["lines"]
+    #             for line in lines:
+    #                 output = output +  "\n"
+    #                 spans = line["spans"]
+    #                 for span in spans:
+    #                     font = span["font"]
+    #                     mapping = all_gids[font]
+    #                     chars = span["chars"]
+    #                     for char in chars:
+    #                         if skip > 0:
+    #                             skip = skip - 1
+    #                             continue
+    #                         origin = char["origin"]
+    #                         key = f"{origin[0]},{origin[1]},{font}"
+    #                         if key in char_location_font_to_gid:
+    #                             gid_matched = char_location_font_to_gid[key]
+
+    #                             if mapping["is_preeti"]:
+    #                                 try:
+    #                                     output =  output + all_rules['char-map'][ char["c"] ]
+    #                                 except:
+    #                                     output = output + char["c"]
+    #                             else:
+    #                                 output = output + mapping[gid_matched]
+    #                             # print( all_gids["Kalimati"]["92"])
+    #                                 skip = len( mapping[gid_matched] ) - 1
+    #                             # print(skip)
+    #                                 matched = matched + 1
+    #                         else:
+    #                             # output = output + char["c"]
+    #                             print(f"{key}=> {char['c']}")
+    #                             missed = missed + 1
+    #                     # print(origin)
+    # print(f" Matched{matched}/{missed}")
+    # output = apply_replacement_rules(output,all_rules["post-rules"])
+    # with open(sys.argv[1]+".txt","w",encoding="utf-8") as f:
+    #     f.write(output)
+    # exit()
+
     for page_no in range(total_pages):
+        print(f"{page_no} Printing page {page_no}")
         page = document[page_no]
         page_text = page.get_texttrace()
         dublicacy = []
+
+        combined_text  = combined_text + "\n--------------------------------------------------\n"
 
         for span in page_text:
 
@@ -492,6 +593,10 @@ def convertToText():
     combined_text = apply_replacement_rules(combined_text,all_rules["post-rules"])
     return combined_text
 
+
+# all_gids = get_all_gid_used()
+# convertToText()
+
 # Function to handle dropdown selection
 def on_select(event):
     global current_font_name
@@ -541,7 +646,7 @@ def on_convert_click():
     print("Converting!")
     on_save_click()
     converted_text = convertToText()
-    with open(sys.argv[1]+".txt","w") as f:
+    with open(sys.argv[1]+".txt","w",encoding="utf-8") as f:
         f.write(converted_text)
     print("Converted")
 
